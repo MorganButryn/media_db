@@ -25,9 +25,12 @@ def add_del_edit():
      print("1: \t Add record")
      print("2: \t Edit record")
      print("3: \t Remove record")
+     print("4 \t Go back")
      
      uinput = input("-> ")
      
+     if uinput == '4':
+          return
      if uinput == '1':
           record_creation(len(games) +1)
      else:   
@@ -74,7 +77,7 @@ def record_creation(key):
           entry.append(input("Release Year: "))
           entry.append(input("Platform: "))
           entry.append(input("Purchase Date: "))
-          entry.append(input("Purchase Price: "))
+          entry.append(float(input("Purchase Price (must be a decimal number only): ")))
           entry.append('')
           entry.append('')
           entry.append(input("Genre: "))
@@ -82,7 +85,6 @@ def record_creation(key):
           entry.append(input("Personal Rating: "))
           entry.append(input("Notes: "))
           boolinput = input("Does the game have singleplayer? (Y/n) ").lower
-          yesputs = ['', 'y', 'yes']
           if boolinput in yesputs:
                entry[7] = True
           boolinput = input("Does the game have multiplayer? (Y/n) ").lower
@@ -100,14 +102,35 @@ def record_creation(key):
      print()
      
 def searches():
-     print("Searching")
-          
+     print("Search by:")
+     print("----------")
+     print("1: \t Title")
+     print("2: \t Developer")
+     print("3: \t Publisher")
+     print("4: \t Release year")
+     print("5: \t Platform")
+     print("6: \t Purchase date")
+     print("7: \t Purchase price")
+     print("8: \t Singleplayer status")
+     print("9: \t Multiplayer status")
+     print("10: \t Genre")
+     print("11: \t Personal rating")
+     print("12: \t Completion")
+     print("13: \t Go back")
+     uinput = input("-> ")
+     if uinput == "13":
+          return
+     
+     
 picklefile = open("games.pickle", "rb")
 games = pickle.load(picklefile)
 picklefile.close()
 
+yesputs = ['', 'y', 'yes']
+
 menu()
 while True:
+     print("Main Menu")
      uinput = input("-> ")
      
      if uinput == '1':
