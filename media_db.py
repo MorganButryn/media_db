@@ -29,7 +29,7 @@ def add_del_edit():
      uinput = input("-> ")
      
      if uinput == '1':
-          record_creation()
+          record_creation(len(games) +1)
      else:   
           uindex = input("Index of record: ")
           if uindex in games.keys():
@@ -37,7 +37,7 @@ def add_del_edit():
                     removal = games.pop(uindex)
                     print("Index", uindex, "removed")
                else:
-                    record_creation()
+                    record_creation(uindex)
           else:
                print("Record does not exist!")
           
@@ -60,8 +60,47 @@ def print_records():
           print("Notes:", games[key][12])
           print("----------------------")
 
-def record_creation():
-     print("Creating Record")
+def record_creation(key):
+     print("Record Creation")
+     print("---------------")
+     print()
+     print("Current information:", games[key])
+     valid = False
+     entry = []
+     while not valid:
+          entry.append(input("Title: "))
+          entry.append(input("Developer: "))
+          entry.append(input("Publisher: "))
+          entry.append(input("Release Year: "))
+          entry.append(input("Platform: "))
+          entry.append(input("Purchase Date: "))
+          entry.append(input("Purchase Price: "))
+          entry.append('')
+          entry.append('')
+          entry.append(input("Genre: "))
+          entry.append('')
+          entry.append(input("Personal Rating: "))
+          entry.append(input("Notes: "))
+          boolinput = input("Does the game have singleplayer? (Y/n) ").lower
+          yesputs = ['', 'y', 'yes']
+          if boolinput in yesputs:
+               entry[7] = True
+          boolinput = input("Does the game have multiplayer? (Y/n) ").lower
+          if boolinput in yesputs:
+               entry[8] = True
+          boolinput = input("Have you completed the game? (Y/n) ").lower
+          if boolinput in yesputs:
+               entry[10] = True
+          boolinput = input("Is the previous information correct? (Y/n) ").lower
+          if boolinput in yesputs:
+               valid == True
+          else:
+               entry = []
+     games[key] = entry
+     print()
+     
+def searches():
+     print("Searching")
           
 picklefile = open("games.pickle", "rb")
 games = pickle.load(picklefile)
@@ -81,7 +120,7 @@ while True:
           add_del_edit()
           
      if uinput == '4':
-          print("searching")
+          searches()
           
      if uinput == '5':
           picklefile = open("games.pickle", "wb")
