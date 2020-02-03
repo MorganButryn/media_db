@@ -33,16 +33,20 @@ def add_del_edit():
           return
      if uinput == '1':
           record_creation(len(games) +1)
-     else:   
-          uindex = input("Index of record: ")
-          if uindex in games.keys():
-               if uinput == '3':
-                    removal = games.pop(uindex)
-                    print("Index", uindex, "removed")
+     else:
+          try:
+               uindex = input("Index of record: ")
+               if uindex in games.keys():
+                    if uinput == '3':
+                         removal = games.pop(int(uindex))
+                         print("Index", uindex, "removed")
+                    else:
+                         record_creation(uindex)
                else:
-                    record_creation(uindex)
-          else:
-               print("Record does not exist!")
+                    print("Record does not exist!")
+          except:
+               print("Error, returning to main menu")
+               print()
           
 def print_records(index):
      if index == '':
@@ -102,15 +106,19 @@ def record_creation(key):
           entry.append('')
           entry.append(input("Personal Rating: "))
           entry.append(input("Notes: "))
+          
           boolinput = input("Does the game have singleplayer? (Y/n) ").lower
           if boolinput in yesputs:
                entry[7] = True
+               
           boolinput = input("Does the game have multiplayer? (Y/n) ").lower
           if boolinput in yesputs:
                entry[8] = True
+               
           boolinput = input("Have you completed the game? (Y/n) ").lower
           if boolinput in yesputs:
                entry[10] = True
+               
           boolinput = input("Is the previous information correct? (Y/n) ").lower
           if boolinput in yesputs:
                valid == True
@@ -119,7 +127,7 @@ def record_creation(key):
      games[key] = entry
      print()
      
-def searches():
+def search_menu():
      print("Search by:")
      print("----------")
      print("1: \t Title")
@@ -135,101 +143,77 @@ def searches():
      print("11: \t Personal rating")
      print("12: \t Completion")
      print("13: \t Go back")
+     
      uinput = input("-> ")
-     matches = 0
+     
      if uinput == "1":
           uinput = input("Enter Title: ")
-          for key in games.keys():
-               if uinput in games[key][0]:
-                    print_records(key)
-                    matches += 1
+          searches(1, uinput)
+          
      if uinput == "2":
           uinput = input("Enter Developer: ")
-          for key in games.keys():
-               if uinput in games[key][1]:
-                    print_records(key)
-                    matches += 1          
+          searches(2, uinput)
+          
      if uinput == "3":
           uinput = input("Enter Publisher: ")
-          for key in games.keys():
-               if uinput in games[key][2]:
-                    print_records(key)
-                    matches += 1          
+          searches(3, uinput) 
+          
      if uinput == "4":
           uinput = input("Enter Release year: ")
-          for key in games.keys():
-               if uinput in games[key][3]:
-                    print_records(key)
-                    matches += 1          
+          searches(4, uinput)
+          
      if uinput == "5":
           uinput = input("Enter Platform: ")
-          for key in games.keys():
-               if uinput in games[key][4]:
-                    print_records(key)
-                    matches += 1          
+          searches(5, uinput) 
+          
      if uinput == "6":
           uinput = input("Enter Purchase date: ")
-          for key in games.keys():
-               if uinput in games[key][5]:
-                    print_records(key)
-                    matches += 1          
+          searches(6, uinput)
+          
      if uinput == "7":
           uinput = input("Enter Purchase price (must be a decimal number only): ")
-          for key in games.keys():
-               if uinput in games[key][6]:
-                    print_records(key)
-                    matches += 1          
+          searches(8, uinput)
+          
      if uinput == "8":
           uinput = input("Singleplayer status? (Y/n): ")
-          for key in games.keys():
-                    if uinput not in yesputs:
-                         if games[key][8] == False:
-                              print_records(key)
-                              matches += 1
-                    else:
-                         if games[key][8] == True:
-                              print_records(key)
-                              matches += 1        
+          if uinput not in yesputs:
+               searches(8, False)
+          else:
+               searches(8, True)
+               
      if uinput == "9":
           uinput = input("Multiplayer status? (Y/n): ")
-          for key in games.keys():
-               if uinput not in yesputs:
-                    if games[key][8] == False:
-                         print_records(key)
-                         matches += 1
-               else:
-                    if games[key][8] == True:
-                         print_records(key)
-                         matches += 1                    
+          if uinput not in yesputs:
+               searches(9, False)
+          else:
+               searches(9, True)
+               
      if uinput == "10":
           uinput = input("Enter Genre: ")
-          for key in games.keys():
-               if uinput in games[key][9]:
-                    print_records(key)
-                    matches += 1
+          searches(10, uinput)
                        
      if uinput == "11":
           uinput = input("Enter Personal rating: ")
-          for key in games.keys():
-               if uinput in games[key][10]:
-                    print_records(key)
-                    matches += 1          
+          searches(11, uinput)
+          
      if uinput == "12":
           uinput = input("Completion status? (Y/n): ")
-          for key in games.keys():
-               if uinput not in yesputs:
-                    if games[key][8] == False:
-                         print_records(key)
-                         matches += 1
-               else:
-                    if games[key][8] == True:
-                         print_records(key)
-                         matches += 1         
+          if uinput not in yesputs:
+               searches(12, False)
+          else:
+               searches(12, True)
+               
      if uinput == "13":
           return
+     
+def searches(search_type, uinput):
+     matches = 0
+     for key in games.keys():
+          if uinput in games[key][uinput]:
+               print_records(key)
+               matches += 1
      print(matches, "matches found!")
      print()
-     
      
 picklefile = open("games.pickle", "rb")
 games = pickle.load(picklefile)
@@ -252,7 +236,7 @@ while True:
           add_del_edit()
           
      if uinput == '4':
-          searches()
+          search_menu()
           
      if uinput == '5':
           picklefile = open("games.pickle", "wb")
