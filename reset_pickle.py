@@ -20,7 +20,7 @@ import pickle
 # [11] = rating
 # [12] = notes
 
-games = {1:['Halo 3', 'Bungee', 'Microsoft', '2007', 'XBox 360', '1/15/2008', 30.00, True, True, 'FPS', True, '10', '']}
+games = {1:['Halo 3', 'Bungee', 'Microsoft', '2007', 'XBox 360', '1/15/2008', 30.00, "True", "True", 'FPS', "True", '10', '']}
 
 pfile = open("games.pickle", "wb")
 pickle.dump(games, pfile)

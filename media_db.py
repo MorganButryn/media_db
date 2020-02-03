@@ -109,15 +109,21 @@ def record_creation(key):
           
           boolinput = input("Does the game have singleplayer? (Y/n) ").lower
           if boolinput in yesputs:
-               entry[7] = True
+               entry[7] = "True"
+          else:
+               entry[7] = "False"
                
           boolinput = input("Does the game have multiplayer? (Y/n) ").lower
           if boolinput in yesputs:
-               entry[8] = True
+               entry[8] = "True"
+          else:
+               entry[8] = "False"
                
           boolinput = input("Have you completed the game? (Y/n) ").lower
           if boolinput in yesputs:
-               entry[10] = True
+               entry[10] = "True"
+          else:
+               entry[10] = "False"
                
           boolinput = input("Is the previous information correct? (Y/n) ").lower
           if boolinput in yesputs:
@@ -148,60 +154,60 @@ def search_menu():
      
      if uinput == "1":
           uinput = input("Enter Title: ")
-          searches(1, uinput)
+          searches(0, uinput)
           
      if uinput == "2":
           uinput = input("Enter Developer: ")
-          searches(2, uinput)
+          searches(1, uinput)
           
      if uinput == "3":
           uinput = input("Enter Publisher: ")
-          searches(3, uinput) 
+          searches(2, uinput) 
           
      if uinput == "4":
           uinput = input("Enter Release year: ")
-          searches(4, uinput)
+          searches(3, uinput)
           
      if uinput == "5":
           uinput = input("Enter Platform: ")
-          searches(5, uinput) 
+          searches(4, uinput) 
           
      if uinput == "6":
           uinput = input("Enter Purchase date: ")
-          searches(6, uinput)
+          searches(5, uinput)
           
      if uinput == "7":
           uinput = input("Enter Purchase price (must be a decimal number only): ")
-          searches(8, uinput)
+          searches(6, uinput)
           
      if uinput == "8":
-          uinput = input("Singleplayer status? (Y/n): ")
+          uinput = input("Singleplayer status? (Y/n): ").lower()
           if uinput not in yesputs:
-               searches(8, False)
+               searches(7, "False")
           else:
-               searches(8, True)
+               searches(7, "True")
                
      if uinput == "9":
-          uinput = input("Multiplayer status? (Y/n): ")
+          uinput = input("Multiplayer status? (Y/n): ").lower()
           if uinput not in yesputs:
-               searches(9, False)
+               searches(8, "False")
           else:
-               searches(9, True)
+               searches(8, "True")
                
      if uinput == "10":
           uinput = input("Enter Genre: ")
-          searches(10, uinput)
+          searches(9, uinput)
                        
      if uinput == "11":
           uinput = input("Enter Personal rating: ")
-          searches(11, uinput)
+          searches(10, uinput)
           
      if uinput == "12":
-          uinput = input("Completion status? (Y/n): ")
+          uinput = input("Completion status? (Y/n): ").lower()
           if uinput not in yesputs:
-               searches(12, False)
+               searches(11, "False")
           else:
-               searches(12, True)
+               searches(11, "True")
                
      if uinput == "13":
           return
@@ -209,7 +215,7 @@ def search_menu():
 def searches(search_type, uinput):
      matches = 0
      for key in games.keys():
-          if uinput in games[key][uinput]:
+          if uinput in games[key][search_type]:
                print_records(key)
                matches += 1
      print(matches, "matches found!")
