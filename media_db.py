@@ -35,11 +35,15 @@ def add_del_edit():
           record_creation(len(games) +1)
      else:
           try:
-               uindex = input("Index of record: ")
+               uindex = int(input("Index of record: "))
                if uindex in games.keys():
                     if uinput == '3':
-                         removal = games.pop(int(uindex))
-                         print("Index", uindex, "removed")
+                         for key in range(1, len(games)+1):
+                              if key >= uindex and key != len(games):
+                                   games[key] = games[key - 1]
+                              if key == len(games):
+                                   removal = games.pop(key)
+                                   print("Index", uindex, "removed")
                     else:
                          record_creation(uindex)
                else:
