@@ -37,11 +37,34 @@ class MainMenu(tk.Frame):
         
         messagebox.showinfo(message = "File saved")
         
-"""class EditMenu(tk.Frame):
+class EditMenu(tk.Frame):
     def __init__(self):
-        tk.Frame.__init__(self)"""
+        tk.Frame.__init__(self)
         
+        self.grid_columnconfigure(0, weight = 1)
+        self.grid_columnconfigure(1, weight = 1)
+        self.grid_columnconfigure(2, weight = 1)
         
+        #Labels
+        self.lbl_title = tk.Label(self, text="Add/Edit", font=("Verdana", "20"))
+        self.lbl_title.grid(row = 0, column = 1, sticky = "news")
+        
+        self.lbl_notes = tk.Label(self, text="Notes:", font=("Verdana", "14"))
+        self.lbl_notes.grid(row = 3, column = 0, sticky = "news")
+        
+        #Checkbuttons
+        self.chk_sp = tk.Checkbutton(self, text="Has Singleplayer?", font=("Verdana", "10"))
+        self.chk_sp.grid(row = 2, column = 0, sticky = "news")
+        
+        self.chk_mp = tk.Checkbutton(self, text="Has Multiplayer?", font=("Verdana", "10"))
+        self.chk_mp.grid(row = 2, column = 1, sticky = "news")
+        
+        self.chk_complete = tk.Checkbutton(self, text="Completed?", font=("Verdana", "10"))
+        self.chk_complete.grid(row = 2, column = 2, sticky = "news")
+        
+        #Scrolltext
+        self.scr_notes = ScrolledText(self, height=10, width=40)
+        self.scr_notes.grid(row = 6, column = 0, columnspan = 3, sticky = "news")        
 
 class SearchMenu(tk.Frame):
     def __init__(self):
@@ -53,7 +76,7 @@ class SearchMenu(tk.Frame):
         
         #Labels
         self.lbl_title = tk.Label(self, text="Search", font=("Verdana", "20"))
-        self.lbl_title.grid(row = 0, column = 1, columnspan = 1, sticky = "news")
+        self.lbl_title.grid(row = 0, column = 1, sticky = "news")
         
         self.lbl_searchby = tk.Label(self, text="Search by:", font=("Verdana", "14"))
         self.lbl_searchby.grid(row = 2, column = 0, sticky = "news")
@@ -75,7 +98,7 @@ class SearchMenu(tk.Frame):
         self.ent_search = tk.Entry(self)
         self.ent_search.grid(row = 5, column = 0, sticky = "news")
         
-        #Scrolls
+        #Scrolltext
         self.scr_search = ScrolledText(self, height=10, width=40)
         self.scr_search.grid(row = 6, column = 0, columnspan = 3, sticky = "news")
         
@@ -147,7 +170,7 @@ if __name__ == "__main__":
     root = tk.Tk()
     root.geometry("500x400")
     root.title("Media Library")
-    main_menu = SearchMenu()
+    main_menu = EditMenu()
     main_menu.grid(row = 0, column = 0, sticky = "news")
     root.grid_columnconfigure(0, weight = 1)
     root.mainloop()
