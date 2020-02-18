@@ -7,9 +7,14 @@ import tkinter as tk
 from tkinter import messagebox
 from tkinter.scrolledtext import ScrolledText
 
-class MainMenu(tk.Frame):
+class Screen(tk.Frame):
+    current = 0
     def __init__(self):
         tk.Frame.__init__(self)
+
+class MainMenu(Screen):
+    def __init__(self):
+        Screen.__init__(self)
         
         self.grid_columnconfigure(0, weight = 2)
         self.grid_columnconfigure(1, weight = 1)
@@ -37,9 +42,9 @@ class MainMenu(tk.Frame):
         
         messagebox.showinfo(message = "File saved")
         
-class EditMenu(tk.Frame):
+class EditMenu(Screen):
     def __init__(self):
-        tk.Frame.__init__(self)
+        Screen.__init__(self)
         
         self.grid_columnconfigure(0, weight = 1)
         self.grid_columnconfigure(1, weight = 1)
@@ -64,11 +69,25 @@ class EditMenu(tk.Frame):
         
         #Scrolltext
         self.scr_notes = ScrolledText(self, height=10, width=40)
-        self.scr_notes.grid(row = 6, column = 0, columnspan = 3, sticky = "news")        
+        self.scr_notes.grid(row = 6, column = 0, columnspan = 3, sticky = "news")
+        
+        #Frames
+        self.frm_lblent = EntSubframe(self)
+        self.frm_lblent.grid(row = 1, column = 0, columnspan = 3)
+        
+        #Buttons
+        self.btn_back = tk.Button(self, text="Back", font=("Verdana","14"))
+        self.btn_back.grid(row = 7, column = 0)
+        
+        self.btn_clear = tk.Button(self, text="Clear", font=("Verdana","14"))
+        self.btn_clear.grid(row = 7, column = 1)
+        
+        self.btn_submit = tk.Button(self, text="Submit", font=("Verdana","14"))
+        self.btn_submit.grid(row = 7, column = 2)
 
-class SearchMenu(tk.Frame):
+class SearchMenu(Screen):
     def __init__(self):
-        tk.Frame.__init__(self)
+        Screen.__init__(self)
         
         self.grid_columnconfigure(0, weight = 1)
         self.grid_columnconfigure(1, weight = 1)
@@ -137,8 +156,8 @@ class ChkSubframe(tk.Frame):
         self.chk_pub = tk.Checkbutton(self, text="Publisher  ", font=("Verdana","10"))
         self.chk_pub.grid(row = 3, column = 0, sticky = "news")
         
-        self.chk_platform = tk.Checkbutton(self, text="Platform          ", font=("Verdana","10"))
-        self.chk_platform.grid(row = 0, column = 1, sticky = "news")
+        self.chk_plat = tk.Checkbutton(self, text="Platform          ", font=("Verdana","10"))
+        self.chk_plat.grid(row = 0, column = 1, sticky = "news")
         
         self.chk_release = tk.Checkbutton(self, text="Release           ", font=("Verdana","10"))
         self.chk_release.grid(row = 1, column = 1, sticky = "news")
@@ -161,6 +180,71 @@ class ChkSubframe(tk.Frame):
         self.chk_rating = tk.Checkbutton(self, text="Rating            ", font=("Verdana","10"))
         self.chk_rating.grid(row = 3, column = 2, sticky = "news")
 
+class EntSubframe(tk.Frame):
+    def __init__(self, parent):
+        tk.Frame.__init__(self, master=parent)
+        
+        self.grid_columnconfigure(0, weight = 1)
+        self.grid_columnconfigure(1, weight = 1)
+        self.grid_columnconfigure(2, weight = 1)
+        self.grid_columnconfigure(3, weight = 1)
+        
+        #Labels
+        self.lbl_title = tk.Label(self, text="Title:", font=("Verdana","10"))
+        self.lbl_title.grid(row = 0, column = 0)
+        
+        self.lbl_genre = tk.Label(self, text="Genre:", font=("Verdana","10"))
+        self.lbl_genre.grid(row = 1, column = 0)
+        
+        self.lbl_dev = tk.Label(self, text="Developer:", font=("Verdana","10"))
+        self.lbl_dev.grid(row = 2, column = 0)
+        
+        self.lbl_pub = tk.Label(self, text="Publisher:", font=("Verdana","10"))
+        self.lbl_pub.grid(row = 3, column = 0)
+        
+        self.lbl_plat = tk.Label(self, text="Platform:", font=("Verdana","10"))
+        self.lbl_plat.grid(row = 4, column = 0)
+        
+        self.lbl_release = tk.Label(self, text="Release year:", font=("Verdana","10"))
+        self.lbl_release.grid(row = 0, column = 2)
+        
+        self.lbl_purchase = tk.Label(self, text="Purchase date:", font=("Verdana","10"))
+        self.lbl_purchase.grid(row = 1, column = 2)
+        
+        self.lbl_price = tk.Label(self, text="Purchase price:", font=("Verdana","10"))
+        self.lbl_price.grid(row = 2, column = 2)
+        
+        self.lbl_rating = tk.Label(self, text="Rating:", font=("Verdana","10"))
+        self.lbl_rating.grid(row = 3, column = 2)
+        
+        #Entries
+        self.ent_title = tk.Entry(self, font=("Verdana","10"))
+        self.ent_title.grid(row = 0, column = 1)
+        
+        self.ent_genre = tk.Entry(self, font=("Verdana","10"))
+        self.ent_genre.grid(row = 1, column = 1)
+        
+        self.ent_dev = tk.Entry(self, font=("Verdana","10"))
+        self.ent_dev.grid(row = 2, column = 1)
+        
+        self.ent_pub = tk.Entry(self, font=("Verdana","10"))
+        self.ent_pub.grid(row = 3, column = 1)
+        
+        self.ent_plat = tk.Entry(self, font=("Verdana","10"))
+        self.ent_plat.grid(row = 4, column = 1)
+        
+        self.ent_release = tk.Entry(self, font=("Verdana","10"))
+        self.ent_release.grid(row = 0, column = 3)
+        
+        self.ent_purchase = tk.Entry(self, font=("Verdana","10"))
+        self.ent_purchase.grid(row = 1, column = 3)
+        
+        self.ent_price = tk.Entry(self, font=("Verdana","10"))
+        self.ent_price.grid(row = 2, column = 3)
+        
+        self.ent_rating = tk.Entry(self, font=("Verdana","10"))
+        self.ent_rating.grid(row = 3, column = 3)
+
 #main
 if __name__ == "__main__":
     picklefile = open("games.pickle", "rb")
@@ -168,9 +252,18 @@ if __name__ == "__main__":
     picklefile.close()
     
     root = tk.Tk()
-    root.geometry("500x400")
+    root.geometry("500x420")
     root.title("Media Library")
-    main_menu = EditMenu()
-    main_menu.grid(row = 0, column = 0, sticky = "news")
+    screens = [MainMenu(), SearchMenu(), EditMenu()]
+    #Main Menu = screens[0]
+    #Search Menu = screens[1]
+    #Edit Menu = screens[2]
+    screens[0].grid(row = 0, column = 0, sticky = "news")
+    screens[1].grid(row = 0, column = 0, sticky = "news")
+    screens[2].grid(row = 0, column = 0, sticky = "news")
+    
+    screens[2].tkraise()
+    
     root.grid_columnconfigure(0, weight = 1)
+    root.grid_rowconfigure(0, weight = 1)
     root.mainloop()
