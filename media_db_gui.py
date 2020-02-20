@@ -11,7 +11,10 @@ class Screen(tk.Frame):
     current = 0
     def __init__(self):
         tk.Frame.__init__(self)
-
+        
+    def switch_frame():
+        screens[Screen.current].tkraise()
+        
 class MainMenu(Screen):
     def __init__(self):
         Screen.__init__(self)
@@ -25,22 +28,44 @@ class MainMenu(Screen):
         self.lbl_title.grid(row = 0, column = 0, columnspan = 3, sticky = "news")
         
         #Buttons
-        self.btn_add = tk.Button(self, text="Add", font=("Verdana", "14"))
+        self.btn_add = tk.Button(self, text="Add", font=("Verdana", "14"), command=self.go_add)
         self.btn_add.grid(row = 1, column = 1, sticky = "news")
         
-        self.btn_edit = tk.Button(self, text="Edit", font=("Verdana", "14"))
+        self.btn_edit = tk.Button(self, text="Edit", font=("Verdana", "14"), command=self.go_edit)
         self.btn_edit.grid(row = 2, column = 1, sticky = "news")
         
         self.btn_remove = tk.Button(self, text="Remove", font=("Verdana", "14"))
         self.btn_remove.grid(row = 3, column = 1, sticky = "news")
         
-        self.btn_search = tk.Button(self, text="Search", font=("Verdana", "14"))
+        self.btn_search = tk.Button(self, text="Search", font=("Verdana", "14"), command=self.go_search)
         self.btn_search.grid(row = 4, column = 1, sticky = "news")  
         
-        self.btn_save = tk.Button(self, text="Save", font=("Verdana", "14"))
+        self.btn_save = tk.Button(self, text="Save", font=("Verdana", "14"), command=self.save)
         self.btn_save.grid(row = 5, column = 1, sticky = "news")
         
+    def go_add(self):
+        Screen.current = 2
+        Screen.switch_frame()
+        
+    def go_search(self):
+        Screen.current = 1
+        Screen.switch_frame()
+        
+    def save(self):
+        picklefile = open("games.pickle", "wb")
+        pickle.dump(games, picklefile)
+        picklefile.close()
         messagebox.showinfo(message = "File saved")
+    
+    def go_edit(self):
+        popup = tk.Tk()
+        popup.title("Edit/Remove")
+        
+        frm_select = SelectMenu(popup)
+        frm_select.grid(row = 0, column = 0)
+        #Screen.current = 3
+        #Screen.switch_frame()
+        #screens[Screen.current].grid(row = 0, column = 0, sticky = "news")
         
 class EditMenu(Screen):
     def __init__(self):
@@ -76,7 +101,7 @@ class EditMenu(Screen):
         self.frm_lblent.grid(row = 1, column = 0, columnspan = 3)
         
         #Buttons
-        self.btn_back = tk.Button(self, text="Back", font=("Verdana","14"))
+        self.btn_back = tk.Button(self, text="Back", font=("Verdana","14"), command=self.go_back)
         self.btn_back.grid(row = 7, column = 0)
         
         self.btn_clear = tk.Button(self, text="Clear", font=("Verdana","14"))
@@ -84,6 +109,10 @@ class EditMenu(Screen):
         
         self.btn_submit = tk.Button(self, text="Submit", font=("Verdana","14"))
         self.btn_submit.grid(row = 7, column = 2)
+        
+    def go_back(self):
+        Screen.current = 0
+        Screen.switch_frame()    
 
 class SearchMenu(Screen):
     def __init__(self):
@@ -107,10 +136,10 @@ class SearchMenu(Screen):
         self.lbl_filters.grid(row = 1, column = 2, sticky = "news")
         
         #Dropdowns
-        self.searchlist = {"genre", "title"}
-        self.searchselect = ""
+        self.options = ["Title", "Genre"]
+        self.tkvar = tk.StringVar(self)
 
-        self.dbx_search = tk.OptionMenu(self, self.searchselect, *self.searchlist)
+        self.dbx_search = tk.OptionMenu(self, self.tkvar, *self.options)
         self.dbx_search.grid(row = 3, column = 0, sticky = "news")
         
         #Entries
@@ -122,7 +151,7 @@ class SearchMenu(Screen):
         self.scr_search.grid(row = 6, column = 0, columnspan = 3, sticky = "news")
         
         #Buttons
-        self.btn_back = tk.Button(self, text="Back", font=("Verdana", "14"))
+        self.btn_back = tk.Button(self, text="Back", font=("Verdana", "14"), command=self.go_back)
         self.btn_back.grid(row = 7, column = 0, sticky = "news")
         
         self.btn_clear = tk.Button(self, text="Clear", font=("Verdana", "14"))
@@ -134,6 +163,37 @@ class SearchMenu(Screen):
         #Subframes
         frm_chkbtn = ChkSubframe(self)
         frm_chkbtn.grid(row = 2, column = 1, columnspan = 2, rowspan = 4, sticky = "news")
+        
+    def go_back(self):
+        Screen.current = 0
+        Screen.switch_frame()
+
+class SelectMenu(tk.Frame):
+    def __init__(self, parent):
+        tk.Frame.__init__(self, master=parent)
+        self.parent = parent
+        #Labels
+        self.lbl_title = tk.Label(self, text="Select an Item:", font=("Verdana", "14"))
+        self.lbl_title.grid(row = 0, column = 0, sticky = "news", columnspan = 2)
+        
+        #Dropdowns
+        self.options = ["test", "test2"]
+        self.tkvar = tk.StringVar(self)
+
+        self.dbx_item = tk.OptionMenu(self, self.tkvar, *self.options)
+        self.dbx_item.grid(row = 1, column = 0, sticky = "news", columnspan = 2)
+        
+        #Buttons
+        self.btn_back = tk.Button(self, text="Back", font=("Verdana", "14"), command = parent.destroy)
+        self.btn_back.grid(row = 2, column = 0, sticky = "news")
+        self.btn_submit = tk.Button(self, text="Submit", font=("Verdana", "14"), command = self.go_edit)
+        self.btn_submit.grid(row = 2, column = 1, sticky = "news")
+        
+    
+    def go_edit(self):
+        self.parent.destroy()
+        Screen.current = 2
+        Screen.switch_frame()  
 
 class ChkSubframe(tk.Frame):
     def __init__(self, parent):
@@ -258,11 +318,13 @@ if __name__ == "__main__":
     #Main Menu = screens[0]
     #Search Menu = screens[1]
     #Edit Menu = screens[2]
+    #Select Menu = screens[3]
     screens[0].grid(row = 0, column = 0, sticky = "news")
     screens[1].grid(row = 0, column = 0, sticky = "news")
     screens[2].grid(row = 0, column = 0, sticky = "news")
     
-    screens[2].tkraise()
+    Screen.current = 0
+    Screen.switch_frame()
     
     root.grid_columnconfigure(0, weight = 1)
     root.grid_rowconfigure(0, weight = 1)
