@@ -75,6 +75,8 @@ class EditMenu(Screen):
         self.grid_columnconfigure(1, weight = 1)
         self.grid_columnconfigure(2, weight = 1)
         
+        self.edit_key = 0
+        
         #Labels
         self.lbl_title = tk.Label(self, text="Add/Edit", font=("Verdana", "20"))
         self.lbl_title.grid(row = 0, column = 1, sticky = "news")
@@ -112,7 +114,11 @@ class EditMenu(Screen):
         
     def go_back(self):
         Screen.current = 0
-        Screen.switch_frame()    
+        Screen.switch_frame()
+        
+    def edit_update(self):
+        entry = games[self.edit_key]
+        self.frm_lblent.ent_title.set(entry[0])
 
 class SearchMenu(Screen):
     def __init__(self):
@@ -173,12 +179,17 @@ class SelectMenu(tk.Frame):
         tk.Frame.__init__(self, master=parent)
         self.parent = parent
         #Labels
-        self.lbl_title = tk.Label(self, text="Select an Item:", font=("Verdana", "14"))
+        self.lbl_title = tk.Label(self, text="Select a title:", font=("Verdana", "14"))
         self.lbl_title.grid(row = 0, column = 0, sticky = "news", columnspan = 2)
         
         #Dropdowns
-        self.options = ["test", "test2"]
+        self.options = ["Select a title"]
+        
+        for key in games.keys():
+            self.options.append(games[key][0]) #appends key title to options
+            
         self.tkvar = tk.StringVar(self)
+        self.tkvar.set(self.options[0])
 
         self.dbx_item = tk.OptionMenu(self, self.tkvar, *self.options)
         self.dbx_item.grid(row = 1, column = 0, sticky = "news", columnspan = 2)
@@ -191,9 +202,17 @@ class SelectMenu(tk.Frame):
         
     
     def go_edit(self):
-        self.parent.destroy()
-        Screen.current = 2
-        Screen.switch_frame()  
+        if self.tkvar.get() != self.options[0]: #reversed condition from lecture example
+            for i in range(len(self.options)):
+                if self.tkvar.get() == self.options[i]:
+                    screens[2].edit_key = i
+                    screens[2].update()
+                    break
+            self.parent.destroy()
+            Screen.current = 2
+            Screen.switch_frame()
+        else:
+            messagebox.showinfo(message = "Select a title")
 
 class ChkSubframe(tk.Frame):
     def __init__(self, parent):
