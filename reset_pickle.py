@@ -7,20 +7,20 @@
 import pickle
 
 # [0] = title
-# [1] = dev
-# [2] = pub
-# [3] = release
-# [4] = platform
-# [5] = purchase date
-# [6] = purchase price
-# [7] = has SP
-# [8] = has MP
-# [9] = genre
+# [1] = genre
+# [2] = dev
+# [3] = pub
+# [4] = release
+# [5] = platform
+# [6] = purchase date
+# [7] = purchase price
+# [8] = has SP
+# [9] = has MP
 # [10] = completed
 # [11] = rating
 # [12] = notes
 
-games = {1:['Halo 3', 'Bungee', 'Microsoft', '2007', 'XBox 360', '1/15/2008', 30.00, "True", "True", 'FPS', "True", '10', '']}
+games = {1:['Halo 3', 'FPS', 'Bungee', 'Microsoft', '2007', 'XBox 360', '1/15/2008', 30.00, "True", "True", "True", '10', '']}
 
 pfile = open("games.pickle", "wb")
 pickle.dump(games, pfile)
